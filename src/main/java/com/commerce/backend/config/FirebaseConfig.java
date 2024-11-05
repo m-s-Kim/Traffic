@@ -13,15 +13,15 @@ import java.io.IOException;
 public class FirebaseConfig {
 
 //    @Bean
-//    public FirebaseApp initializeFirebase() throws IOException {
-//        FileInputStream serviceAccount =
-//                new FileInputStream("path/to/your/firebase-service-account.json");  // 서비스 계정 키 파일 경로
-//
-//        FirebaseOptions options = FirebaseOptions.builder()
-//                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                .build();
-//
-//        if (FirebaseApp.getApps().isEmpty()) {
+////    public FirebaseApp initializeFirebase() throws IOException {
+////        FileInputStream serviceAccount =
+////                new FileInputStream("");
+////
+////        FirebaseOptions options = FirebaseOptions.builder()
+////                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+////                .build();
+////
+////        if (FirebaseApp.getApps().isEmpty()) {
 //            return FirebaseApp.initializeApp(options);
 //        }
 //        return FirebaseApp.getInstance();
