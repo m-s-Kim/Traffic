@@ -69,8 +69,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpServletResponse response) {
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         UserDetails userDetails = userDetailService.loadUserByUsername(username);
 
@@ -79,6 +81,9 @@ public class UserController {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
+        cookie.setSecure(false); // 로컬 개발 환경에서는 false로 유지
+
+        response.addHeader("Set-Cookie", "token=" + token + "; HttpOnly; Path=/; Max-Age=3600; SameSite=None; Secure");
 
         response.addCookie(cookie);
         return token;

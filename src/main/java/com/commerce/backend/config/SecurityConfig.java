@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,23 +27,36 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
+
     private UserDetailsService userDetailsService;
 
-    @Autowired
+
     private JwtUtil jwtUtil;
 
-    @Autowired
+
     private JwtBlacklistService jwtBlacklistService;
+
+    @Autowired
+    public SecurityConfig (UserDetailsService userDetailsService
+            , JwtUtil jwtUtil
+            ,JwtBlacklistService jwtBlacklistService){
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+        this.jwtBlacklistService = jwtBlacklistService;
+
+    }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors(Customizer.withDefaults()) // `Customizer.withDefaults()`를 사용해 기본 CORS 설정을 적용합니다.
+                .csrf(csrf -> csrf.disable())    // 람다 스타일로 CSRF 비활성화
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/users/signUp", "/api/users/login", "/api/ads", "/api/ads/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/api/games", "/api/users/signUp", "/api/users/login", "/api/ads", "/api/ads/**").permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userDetailsService, jwtBlacklistService), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 람다 스타일로 세션 정책 설정
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
 
@@ -53,11 +67,15 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder())
                 .and()
                 .build();
+//        auth.userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder());
+//        return auth.build();
     }
 
     @Bean

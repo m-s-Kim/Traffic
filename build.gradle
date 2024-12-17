@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.7-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.1.5'
 	id 'com.diffplug.spotless' version "6.25.0"
+	id 'application' // 이미 설정되어 있다면 중복 제거
 }
 
 group = 'com.commerce'
@@ -19,6 +20,7 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+
 
 spotless {
 	format("yaml") {
@@ -68,6 +70,8 @@ dependencies {
 	implementation 'com.google.firebase:firebase-admin:9.1.1'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'org.hibernate:hibernate-core:6.4.9.Final'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -80,4 +84,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+application {
+	mainClass = 'com.commerce.backend.BackendApplication' // 실행할 클래스를 지정
 }
