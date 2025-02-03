@@ -10,12 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Bean
-    public
-
-
-
-
-    queue() {
+    public Queue queue() {
         return new Queue("notification", true);
     }
 
