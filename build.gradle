@@ -22,31 +22,31 @@ configurations {
 }
 
 
-spotless {
-	format("yaml") {
-		target("**/*.yaml", "**/*.yml")
-		//prettier().configFile()
-	}
-	java {
-		removeUnusedImports()
-		googleJavaFormat()
-		importOrder(
-				"java",
-				"jakarta",
-				"lombok",
-				"org.springframework",
-				"",
-				"\\#",
-				"com.commerce.backend",
-				"\\#com.commerce.backend"
-		)
-		endWithNewline()
-		trimTrailingWhitespace()
-		indentWithSpaces(4)
-		indentWithTabs(4)
-
-	}
-}
+//spotless {
+//	format("yaml") {
+//		target("**/*.yaml", "**/*.yml")
+//		//prettier().configFile()
+//	}
+//	java {
+//		removeUnusedImports()
+//		googleJavaFormat()
+//		importOrder(
+//				"java",
+//				"jakarta",
+//				"lombok",
+//				"org.springframework",
+//				"",
+//				"\\#",
+//				"com.commerce.backend",
+//				"\\#com.commerce.backend"
+//		)
+//		endWithNewline()
+//		trimTrailingWhitespace()
+//		indentWithSpaces(4)
+//		indentWithTabs(4)
+//
+//	}
+//}
 
 repositories {
 	mavenCentral()
